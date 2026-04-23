@@ -1,75 +1,129 @@
-# Final-year-project-Seasonal-sales-forecasting-model-for-confectionary-products
-A Python based project that forecasts regional confectionery sales using seasonal time-series models. Supports demand planning through data analysis, modelling, and forecast evaluation.
+Demand Forecasting for FMCG Confectionery Products
+Overview
+This project develops a multi-model time-series forecasting framework to predict monthly demand for confectionery products across different regions. The objective is to improve demand planning by generating accurate, disaggregated forecasts at the Region × Candy Type level.
+Four forecasting approaches were implemented and compared:
 
-Seasonal Sales Forecasting – Sugar Confectionery Segment Project Overview
 
-This project develops a time-series forecasting solution for the sugar confectionery segment using historical monthly sales data. The objective is to predict sales demand by Region and Candy Type to support more accurate baseline demand planning and data driven decision making within the FMCG industry.
-
-The project follows an end-to-end analytics workflow including data preparation, exploratory analysis, forecasting model development, and performance evaluation. Business Problem
-
-Sales in the confectionery sector are highly seasonal and vary significantly across regions and product categories. Traditional forecasting methods based on manual judgement often lead to:
-
-Over-stocking during low-demand periods
-
-Stock shortages during peak seasons
-
-Inefficient inventory and supply chain planning
-
-This project aims to address these challenges by building statistical forecasting models that capture seasonality and trends at a granular level.
-
-Dataset
-
-Monthly sales data from January 2023 – December 2025
-
-Structured at the level of:
-
-Region
-
-Candy Type
-
-Sales Volume
-
-Data was originally provided in wide Excel format and transformed into time-series format for modelling.
-
-Methodology
-
-The project consists of the following key stages:
-
-Data Preparation
-
-Exploratory Data Analysis (EDA)
-Trend and seasonality analysis
-Forecasting Models Implemented
 SARIMA
-Holt–Winters Exponential Smoothing
-LSTM
 
 
-Model Evaluation
-Train-test split with 80/20
+Holt-Winters Exponential Smoothing
 
-Accuracy measured using Mean Absolute Percentage Error (MAPE)
 
-Model comparison across regions and candy types
+LSTM (Baseline)
 
-Tools & Technologies
 
-Python
+LSTM (Tuned using Keras Tuner)
 
-Pandas
 
-NumPy
 
-Matplotlib / Seaborn
+Key Objective
+To identify the most accurate forecasting model for each product-region combination and generate six-month ahead demand forecasts (Jan–Jun 2026) to support operational decision-making.
 
-Statsmodels
+⚙️ Methodology
+1. Data Preparation
 
-Prophet
 
-Key Outputs
+Monthly sales data aggregated by Region × Candy Type
 
-forecasting pipeline
 
-MAPE-based performance comparison tables
+Minimum series length: 24 months
 
-Regional and product-level forecasts
+
+Missing values handled using time-based interpolation
+
+
+2. Train-Test Split - 80/20
+
+
+3. Models Implemented
+SARIMA
+
+
+ADF test used to determine differencing (d)
+
+
+ACF/PACF used for parameter identification
+
+
+Seasonal component fixed at 12 months
+
+
+EWMA pre-smoothing applied for stability
+
+
+Holt-Winters
+
+
+Exhaustive search across valid configurations:
+
+
+Trend: additive, multiplicative, none
+
+
+Seasonality: additive, multiplicative
+
+
+Damped trend + Box-Cox options
+
+
+
+
+Best model selected using AIC
+
+
+LSTM (Baseline)
+
+
+2-layer stacked architecture:
+
+
+LSTM(64) → Dropout → LSTM(32) → Dense
+
+
+
+
+12-month lookback window
+
+
+MinMax scaling applied
+
+
+🔹 LSTM (Tuned)
+
+
+Bayesian optimisation (Keras Tuner)
+
+
+Tuned parameters:
+
+
+Number of layers (1–3)
+
+
+Units (32–256)
+
+
+Dropout (0.1–0.5)
+
+
+Learning rate
+
+
+
+
+Evaluation Metrics
+Models were evaluated on the test set using:
+
+
+MAPE (primary metric)
+
+
+RMSE
+
+
+MAE
+
+
+Best model per combination selected based on minimum MAPE.
+
